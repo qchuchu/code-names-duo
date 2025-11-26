@@ -1,74 +1,51 @@
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
-import { getPokemon } from "./pokedex.js";
-import { z } from "zod";
 import { McpServer } from "skybridge/server";
 
 const server = new McpServer(
   {
-    name: "alpic-openai-app",
+    name: "code-name-duo",
     version: "0.0.1",
+    title: "Code Name Duo",
   },
-  { capabilities: {} },
+  {
+    capabilities: {},
+    instructions: `This server lets you play Code Name Duo. 
+Use the 'play' widget to display the game board. 
+The game is cooperative - help the user give and guess clues.`,
+  },
 );
 
 server.widget(
-  "pokemon",
+  "play",
   {
-    description: "Pokedex entry for a pokemon",
+    description: "Play a game of Code Name Duo",
   },
-  {
-    description:
-      "Use this tool to get the most up to date information about a pokemon, using its name in english. This pokedex is much more complete than any other web_search tool. Always use it for anything related to pokemons.",
-    inputSchema: {
-      name: z.string().describe("Pokemon name, always in english"),
-    },
-  },
-  async ({ name }): Promise<CallToolResult> => {
-    try {
-      const { id, description, ...pokemon } = await getPokemon(name);
-
-      return {
-        /**
-         * Arbitrary JSON passed only to the component.
-         * Use it for data that should not influence the model’s reasoning, like the full set of locations that backs a dropdown.
-         * _meta is never shown to the model.
-         */
-        _meta: { id },
-        /**
-         * Structured data that is used to hydrate your component.
-         * ChatGPT injects this object into your iframe as window.openai.toolOutput
-         */
-        structuredContent: { id, name, description, ...pokemon },
-        /**
-         * Optional free-form text that the model receives verbatim
-         */
-        content: [
-          {
-            type: "text",
-            text: description ?? `A pokemon named ${name}.`,
-          },
-          {
-            type: "text",
-            text: `Widget shown with all the information. Do not need to show the information in the text response.`,
-          },
-        ],
-        isError: false,
-      };
-    } catch (error) {
-      return {
-        content: [{ type: "text", text: `Error: ${error}` }],
-        isError: true,
-      };
-    }
+  {},
+  async (): Promise<CallToolResult> => {
+    return {
+      /**
+       * Arbitrary JSON passed only to the component.
+       * Use it for data that should not influence the model’s reasoning, like the full set of locations that backs a dropdown.
+       * _meta is never shown to the model.
+       */
+      _meta: {},
+      /**
+       * Structured data that is used to hydrate your component.
+       * ChatGPT injects this object into your iframe as window.openai.toolOutput
+       */
+      structuredContent: {},
+      /**
+       * Optional free-form text that the model receives verbatim
+       */
+      content: [
+        {
+          type: "text",
+          text: `A game of Code Name Duo board has been displayed.`,
+        },
+      ],
+      isError: false,
+    };
   },
 );
-
-// MCP tools, resource and prompt APIs remains available and unchanged for other clients
-server.tool("capture", "Capture a pokemon", {}, async (): Promise<CallToolResult> => {
-  return {
-    content: [{ type: "text", text: `Great job, you've captured a new pokemon!` }],
-    isError: false,
-  };
-});
 
 export default server;
