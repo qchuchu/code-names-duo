@@ -1,2 +1,24 @@
+@import url("https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;700;800&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
+
+@theme {
+  /* Codenames Duo color palette */
+  --color-codenames-green-dark: #1a5a3a;
+  --color-codenames-green: #2d7a4e;
+  --color-codenames-green-light: #3d9a5e;
+  --color-codenames-purple: #6b3fa0;
+  --color-codenames-purple-dark: #4a2d70;
+  --color-codenames-yellow: #f5c518;
+  --color-codenames-cream: #f5f0e1;
+  --color-codenames-black: #1a1a1a;
+
+  --font-title: "Bangers", cursive;
+  --font-body: "Nunito", sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-codenames-green-dark);
+  color: var(--color-codenames-cream);
+}
