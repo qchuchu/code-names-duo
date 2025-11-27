@@ -21,8 +21,8 @@ export const StartGame = () => {
       </div>
 
       <p className="text-center text-codenames-cream/90 max-w-xl mb-12 text-lg leading-relaxed">
-        <span className="font-bold text-codenames-yellow">Codenames Duo</span> is a cooperative game for 2 players (or
-        more) where you must find all your Codenames before time runs out.
+        <span className="font-bold text-codenames-yellow">Codenames Duo</span> is a cooperative game for 2 players where
+        you must find all your Codenames before time runs out.
       </p>
 
       <button
