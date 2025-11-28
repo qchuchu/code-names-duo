@@ -15,6 +15,7 @@ export const GamePage = () => {
 
   const handleResetGame = () => {
     setGame(initGame());
+    window.openai.requestDisplayMode({ mode: "pip" });
     window.openai.sendFollowUpMessage({
       prompt:
         "Game started ! For the first turn, you are the Spy Master. Give your first clue & number of words to guess",
