@@ -5,6 +5,7 @@ import type { Game, KeyCard } from "@/lib/types";
 import { KeyCardComponent } from "@/components/KeyCard";
 import { BoardComponent } from "@/components/Board";
 import { decrypt } from "@/lib/crypto";
+import { useOpenAiGlobal } from "skybridge/web";
 
 export const NEW_GAME_PROMPT = `
 Game started ! For the first turn, you are the Spy Master (you the AI - not the user). 
@@ -14,6 +15,7 @@ Be concise, just say : "Game started ! Here my first clue & number of words to g
 
 export const GamePage = () => {
   const [game, setGame] = useWidgetState<Game>();
+  const displayMode = useOpenAiGlobal("displayMode");
   useEffect(() => {
     const game = initGame();
     setGame(game);
@@ -38,8 +40,8 @@ export const GamePage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-codenames-green-dark relative">
-      <div className="absolute top-4 right-4">
+    <div className="min-h-screen flex flex-col bg-codenames-green-dark p-4">
+      <div className="flex justify-between items-center mb-4">
         <span
           className={`inline-block px-3 py-1 rounded-full text-sm font-bold ${
             game.whoIsSpyMaster === "ai"
@@ -49,20 +51,33 @@ export const GamePage = () => {
         >
           {game.whoIsSpyMaster === "ai" ? "🤖 ChatGPT Spymaster" : "👤 User Spymaster"}
         </span>
-      </div>
-      <div className="text-center">
-        <h1 className="font-title text-4xl text-codenames-cream mb-4">Game Board</h1>
-        <div className="flex gap-8 justify-center">
-          <BoardComponent />
-          <div className="flex flex-col items-center justify-center gap-4">
-            <p className="text-codenames-cream/80 mb-2 font-bold">Key Card</p>
-            <KeyCardComponent keyCard={decrypt<KeyCard>(game.keyCards.user)} />
+        <h1 className="font-title text-4xl text-codenames-cream">Game Board</h1>
+        <div className="flex items-center gap-2">
+          <button
+            className="bg-codenames-yellow hover:bg-codenames-yellow/90 text-codenames-black font-bold px-4 py-2 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200 font-title tracking-wide cursor-pointer"
+            onClick={handleResetGame}
+          >
+            Reset Game
+          </button>
+          {displayMode === "inline" && (
             <button
-              className="bg-codenames-yellow hover:bg-codenames-yellow/90 text-codenames-black font-bold px-4 py-2 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200 font-title tracking-wide cursor-pointer"
-              onClick={handleResetGame}
+              className="bg-codenames-cream hover:bg-codenames-cream/90 text-codenames-black font-bold px-3 py-2 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200 cursor-pointer"
+              onClick={() => window.openai.requestDisplayMode({ mode: "pip" })}
+              title="Pin widget"
             >
-              Reset Game
+              📌
             </button>
+          )}
+        </div>
+      </div>
+      <div className="flex-1 flex flex-col items-center justify-center">
+        <div className="flex items-center justify-center gap-8">
+          <BoardComponent />
+          <div className="flex flex-col items-center gap-4">
+            <div className="flex flex-col items-center gap-2">
+              <p className="text-codenames-cream/80 font-bold">Key Card</p>
+              <KeyCardComponent keyCard={decrypt<KeyCard>(game.keyCards.user)} />
+            </div>
             {game.whoIsSpyMaster === "ai" && (
               <button
                 className="bg-codenames-purple hover:bg-codenames-purple-dark text-codenames-cream font-bold px-4 py-2 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200 font-title tracking-wide cursor-pointer"
