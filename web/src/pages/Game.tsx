@@ -29,6 +29,14 @@ export const GamePage = () => {
 
   if (!game) return null;
 
+  const handleEndTurn = () => {
+    game.whoIsSpyMaster = "user";
+    setGame({ ...game });
+    window.openai.sendFollowUpMessage({
+      prompt: `The user has ended their turn. It's now your turn to guess words. Wait for the user to give you a clue & number of words to guess. Don't give him examples of clues, just wait for the user to give you a clue & number of words to guess.`,
+    });
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-codenames-green-dark relative">
       <div className="absolute top-4 right-4">
@@ -55,6 +63,14 @@ export const GamePage = () => {
             >
               Reset Game
             </button>
+            {game.whoIsSpyMaster === "ai" && (
+              <button
+                className="bg-codenames-purple hover:bg-codenames-purple-dark text-codenames-cream font-bold px-4 py-2 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200 font-title tracking-wide cursor-pointer"
+                onClick={handleEndTurn}
+              >
+                End Turn
+              </button>
+            )}
           </div>
         </div>
       </div>

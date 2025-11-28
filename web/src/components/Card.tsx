@@ -16,12 +16,7 @@ const StarIcon = () => (
 
 const CrossIcon = () => (
   <svg viewBox="0 0 24 24" className="w-6 h-6">
-    <path
-      d="M6 6L18 18M6 18L18 6"
-      stroke="currentColor"
-      strokeWidth="3"
-      strokeLinecap="round"
-    />
+    <path d="M6 6L18 18M6 18L18 6" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
   </svg>
 );
 
@@ -35,7 +30,7 @@ const TimerPill = () => (
 );
 
 export const Card = ({ cell, onClick }: CardProps) => {
-  if (cell.status === "covered") {
+  if (cell.status === "revealed") {
     return (
       <div className="w-20 h-14 bg-codenames-green rounded-md shadow-md flex items-center justify-center text-codenames-green-dark">
         <StarIcon />
@@ -55,9 +50,7 @@ export const Card = ({ cell, onClick }: CardProps) => {
     return (
       <div className="relative w-20 h-14 bg-codenames-cream rounded-md shadow-md flex items-center justify-center border border-codenames-cream/50">
         <TimerPill />
-        <span className="font-body font-bold text-xs text-codenames-black uppercase tracking-wide">
-          {cell.word}
-        </span>
+        <span className="font-body font-bold text-xs text-codenames-black uppercase tracking-wide">{cell.word}</span>
       </div>
     );
   }
@@ -67,9 +60,7 @@ export const Card = ({ cell, onClick }: CardProps) => {
       className="w-20 h-14 bg-codenames-cream rounded-md shadow-md flex items-center justify-center border border-codenames-cream/50 hover:shadow-lg transition-shadow cursor-pointer"
       onClick={onClick}
     >
-      <span className="font-body font-bold text-xs text-codenames-black uppercase tracking-wide">
-        {cell.word}
-      </span>
+      <span className="font-body font-bold text-xs text-codenames-black uppercase tracking-wide">{cell.word}</span>
     </div>
   );
 };

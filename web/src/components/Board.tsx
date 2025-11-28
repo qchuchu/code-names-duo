@@ -8,13 +8,13 @@ export const BoardComponent = () => {
   if (!game) return null;
 
   const handleCardClick = (cell: BoardCell) => {
-    if (cell.status !== "uncovered") return;
+    if (!(cell.status === "hidden" || cell.status === "innocent_ai")) return;
 
     const keyCardCell = game.keyCards.ai[cell.row][cell.column];
 
     let newStatus: BoardCell["status"];
     if (keyCardCell === "word_to_guess") {
-      newStatus = "covered";
+      newStatus = "revealed";
     } else if (keyCardCell === "assassin") {
       window.openai.sendFollowUpMessage({
         prompt: `The user has guessed the word ${keyCardCell}. It was the assassin. Game over.`,
@@ -32,10 +32,12 @@ export const BoardComponent = () => {
   };
 
   return (
-    <div className="grid grid-cols-5 gap-2">
-      {game.board.flat().map((cell, index) => (
-        <Card key={index} cell={cell} onClick={() => handleCardClick(cell)} />
-      ))}
+    <div className="flex flex-col items-center gap-4">
+      <div className="grid grid-cols-5 gap-2">
+        {game.board.flat().map((cell, index) => (
+          <Card key={index} cell={cell} onClick={() => handleCardClick(cell)} />
+        ))}
+      </div>
     </div>
   );
 };
