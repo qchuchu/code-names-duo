@@ -15,9 +15,6 @@ export const BoardComponent = () => {
     let newStatus: BoardCell["status"];
     if (keyCardCell === "word_to_guess") {
       newStatus = "covered";
-      window.openai.sendFollowUpMessage({
-        prompt: `The user has guessed the word ${keyCardCell}. It was a word to guess. It's still the user's turn to guess more words.`,
-      });
     } else if (keyCardCell === "assassin") {
       window.openai.sendFollowUpMessage({
         prompt: `The user has guessed the word ${keyCardCell}. It was the assassin. Game over.`,
