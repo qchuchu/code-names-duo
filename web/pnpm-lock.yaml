@@ -39,8 +39,8 @@ importers:
         specifier: ^7.9.6
         version: 7.9.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       skybridge:
-        specifier: ^0.2.4
-        version: 0.2.4(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        specifier: ^0.2.6
+        version: 0.2.6(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       tailwind-merge:
         specifier: ^3.4.0
         version: 3.4.0
@@ -1778,8 +1778,8 @@ packages:
     resolution: {integrity: sha512-ZX99e6tRweoUXqR+VBrslhda51Nh5MTQwou5tnUDgbtyM0dBgmhEDtWGP/xbKn6hqfPRHujUNwz5fy/wbbhnpw==}
     engines: {node: '>= 0.4'}
 
-  skybridge@0.2.4:
-    resolution: {integrity: sha512-mdi7sbJEU7EdT6/iZIfRuIQ/Cl5t09u3c9CB63sHFp/kCziUYMHkhCn5H+sRhFb5HP0yv1uY7hSVvgZ2yBVlRw==}
+  skybridge@0.2.6:
+    resolution: {integrity: sha512-to5WGusVf6K6bawWLUtBLPGn9bgEfEVdxkClgrk0vPiNRygzpKDQS09FDuEuHIb2EWqJ+GXx790t/ky82YI3nQ==}
     peerDependencies:
       react: '>=18.0.0'
       react-dom: '>=18.0.0'
@@ -3608,7 +3608,7 @@ snapshots:
       side-channel-map: 1.0.1
       side-channel-weakmap: 1.0.2
 
-  skybridge@0.2.4(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
+  skybridge@0.2.6(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
     dependencies:
       '@modelcontextprotocol/sdk': 1.20.1
       cors: 2.8.5

@@ -1,10 +1,20 @@
+import { initGame } from "@/lib/initGame";
+import type { Game } from "@/lib/types";
+import { useWidgetState } from "@/utils";
 import { useNavigate } from "react-router-dom";
+import { NEW_GAME_PROMPT } from "./Game";
 
 export const StartGame = () => {
   const navigate = useNavigate();
+  const [_, setGame] = useWidgetState<Game>();
 
   const handleStartGame = () => {
     window.openai.requestDisplayMode({ mode: "pip" });
+    const game = initGame();
+    setGame(game);
+    window.openai.sendFollowUpMessage({
+      prompt: NEW_GAME_PROMPT,
+    });
     navigate("/game");
   };
 

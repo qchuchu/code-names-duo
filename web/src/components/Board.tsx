@@ -1,15 +1,43 @@
-import type { Board } from "@/lib/types";
+import type { Game, BoardCell } from "@/lib/types";
+import { useWidgetState } from "@/utils";
 import { Card } from "./Card";
 
-type BoardProps = {
-  board: Board;
-};
+export const BoardComponent = () => {
+  const [game, setGame] = useWidgetState<Game>();
 
-export const BoardComponent = ({ board }: BoardProps) => {
+  if (!game) return null;
+
+  const handleCardClick = (cell: BoardCell) => {
+    if (cell.status !== "uncovered") return;
+
+    const keyCardCell = game.keyCards.ai[cell.row][cell.column];
+
+    let newStatus: BoardCell["status"];
+    if (keyCardCell === "word_to_guess") {
+      newStatus = "covered";
+      window.openai.sendFollowUpMessage({
+        prompt: `The user has guessed the word ${keyCardCell}. It was a word to guess. It's still the user's turn to guess more words.`,
+      });
+    } else if (keyCardCell === "assassin") {
+      window.openai.sendFollowUpMessage({
+        prompt: `The user has guessed the word ${keyCardCell}. It was the assassin. Game over.`,
+      });
+      newStatus = "assassin";
+    } else {
+      newStatus = "innocent_user";
+      window.openai.sendFollowUpMessage({
+        prompt: `The user has guessed the word ${keyCardCell}. It was an innocent word. It's your turn to guess a word.`,
+      });
+    }
+
+    game.board[cell.row][cell.column].status = newStatus;
+    setGame({ ...game });
+  };
+
   return (
     <div className="grid grid-cols-5 gap-2">
-      {board.flat().map((cell, index) => (
-        <Card key={index} cell={cell} />
+      {game.board.flat().map((cell, index) => (
+        <Card key={index} cell={cell} onClick={() => handleCardClick(cell)} />
       ))}
     </div>
   );

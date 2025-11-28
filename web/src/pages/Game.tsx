@@ -6,6 +6,12 @@ import { KeyCardComponent } from "@/components/KeyCard";
 import { BoardComponent } from "@/components/Board";
 import { decrypt } from "@/lib/crypto";
 
+export const NEW_GAME_PROMPT = `
+Game started ! For the first turn, you are the Spy Master (you the AI - not the user). 
+Give your first clue & number of words to guess. 
+Be concise, just say : "Game started ! Here my first clue & number of words to guess : <clue> <number of words>".
+`;
+
 export const GamePage = () => {
   const [game, setGame] = useWidgetState<Game>();
   useEffect(() => {
@@ -17,8 +23,7 @@ export const GamePage = () => {
     setGame(initGame());
     window.openai.requestDisplayMode({ mode: "pip" });
     window.openai.sendFollowUpMessage({
-      prompt:
-        "Game started ! For the first turn, you are the Spy Master. Give your first clue & number of words to guess",
+      prompt: NEW_GAME_PROMPT,
     });
   };
 
@@ -28,7 +33,7 @@ export const GamePage = () => {
         <h1 className="font-title text-4xl text-codenames-cream mb-4">Game Board</h1>
         {game && (
           <div className="flex gap-8 justify-center">
-            <BoardComponent board={game.board} />
+            <BoardComponent />
             <div className="flex flex-col items-center justify-center gap-4">
               <p className="text-codenames-cream/80 mb-2 font-bold">Key Card</p>
               <KeyCardComponent keyCard={decrypt<KeyCard>(game.keyCards.user)} />

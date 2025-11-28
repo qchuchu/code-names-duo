@@ -40,7 +40,7 @@ server.widget(
       content: [
         {
           type: "text",
-          text: `A game of Code Name Duo board has been displayed.`,
+          text: `The start game screen of Code Name Duo has been displayed. Don't give any other text, just wait for the user to start the game.`,
         },
       ],
       isError: false,
