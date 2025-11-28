@@ -5,21 +5,41 @@ import type { Game, KeyCard } from "@/lib/types";
 import { KeyCardComponent } from "@/components/KeyCard";
 import { BoardComponent } from "@/components/Board";
 import { decrypt } from "@/lib/crypto";
-import { useOpenAiGlobal } from "skybridge/web";
+import { useOpenAiGlobal, useToolInfo } from "skybridge/web";
 
 export const NEW_GAME_PROMPT = `
 Game started ! For the first turn, you are the Spy Master (you the AI - not the user). 
-Give your first clue & number of words to guess. 
-Be concise, just say : "Game started ! Here my first clue & number of words to guess : <clue> <number of words>".
+Give your first clue & number of words to guess by using the tool call.
 `;
+
+type ToolOutput =
+  | { action: "startGame" }
+  | { action: "giveClue"; clue: { word: string; number: number } }
+  | { action: "guessWord"; wordsToGuess: string[] };
 
 export const GamePage = () => {
   const [game, setGame] = useWidgetState<Game>();
+  const { output } = useToolInfo();
   const displayMode = useOpenAiGlobal("displayMode");
+
   useEffect(() => {
-    const game = initGame();
-    setGame(game);
-  }, []);
+    if (output === undefined) return;
+    const toolOutput = output as ToolOutput;
+    if (toolOutput.action === "startGame") {
+      setGame(initGame());
+    }
+    if (toolOutput.action === "giveClue" && game) {
+      const newClue = toolOutput.clue;
+      const currentClue = game.currentClue;
+      const cluesAreDifferent =
+        !currentClue || currentClue.word !== newClue.word || currentClue.number !== newClue.number;
+
+      if (cluesAreDifferent) {
+        game.currentClue = newClue;
+        setGame({ ...game });
+      }
+    }
+  }, [output]);
 
   const handleResetGame = () => {
     setGame(initGame());
@@ -78,6 +98,15 @@ export const GamePage = () => {
               <p className="text-codenames-cream/80 font-bold">Key Card</p>
               <KeyCardComponent keyCard={decrypt<KeyCard>(game.keyCards.user)} />
             </div>
+            {game.currentClue && (
+              <div className="bg-codenames-cream/10 border border-codenames-cream/30 rounded-xl px-4 py-2 flex items-center gap-3">
+                <span className="text-codenames-cream/70 text-xs">Clue:</span>
+                <span className="font-title text-xl text-codenames-yellow uppercase">{game.currentClue.word}</span>
+                <span className="bg-codenames-purple text-codenames-cream font-bold px-2 py-0.5 rounded-full text-sm">
+                  {game.currentClue.number}
+                </span>
+              </div>
+            )}
             {game.whoIsSpyMaster === "ai" && (
               <button
                 className="bg-codenames-purple hover:bg-codenames-purple-dark text-codenames-cream font-bold px-4 py-2 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200 font-title tracking-wide cursor-pointer"
