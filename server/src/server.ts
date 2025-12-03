@@ -19,9 +19,12 @@ The game is cooperative - help the user give and guess clues.`,
 server.widget(
   "play",
   {
-    description: "Play a game of Code Name Duo. If there are no wor",
+    description: "Play a game of Code Name Duo. If there are no words to guess, the action should be 'startGame'.",
   },
   {
+    annotations: {
+      readOnlyHint: true,
+    },
     inputSchema: {
       action: z
         .enum(["giveClue", "guessWord", "startGame"])
