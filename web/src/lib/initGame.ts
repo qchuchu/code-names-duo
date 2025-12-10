@@ -76,7 +76,7 @@ export const initGame = (): Game => {
       ai: MOCK_AGENT_KEY_CARD,
     },
     commentForAI: COMMENT_FOR_AI,
-    whoIsSpyMaster: "user",
+    whoIsSpyMaster: "ai",
     currentClue: null,
   };
 };

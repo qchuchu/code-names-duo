@@ -6,16 +6,9 @@ import { KeyCardComponent } from "@/components/KeyCard";
 import { BoardComponent } from "@/components/Board";
 import { decrypt } from "@/lib/crypto";
 import { useOpenAiGlobal, useToolInfo } from "skybridge/web";
+import { NEW_GAME_PROMPT } from "./constants";
 
-export const NEW_GAME_PROMPT = `
-Game started ! For the first turn, you are the Spy Master (you the AI - not the user). 
-Give your first clue & number of words to guess by using the tool call.
-`;
-
-type ToolOutput =
-  | { action: "startGame" }
-  | { action: "giveClue"; clue: { word: string; number: number } }
-  | { action: "guessWord"; wordsToGuess: string[] };
+type ToolOutput = { action: "startGame" } | { action: "guessWord"; wordsToGuess: string[] };
 
 export const GamePage = () => {
   const [game, setGame] = useWidgetState<Game>();
@@ -27,17 +20,6 @@ export const GamePage = () => {
     const toolOutput = output as ToolOutput;
     if (toolOutput.action === "startGame") {
       setGame(initGame());
-    }
-    if (toolOutput.action === "giveClue" && game) {
-      const newClue = toolOutput.clue;
-      const currentClue = game.currentClue;
-      const cluesAreDifferent =
-        !currentClue || currentClue.word !== newClue.word || currentClue.number !== newClue.number;
-
-      if (cluesAreDifferent) {
-        game.currentClue = newClue;
-        setGame({ ...game });
-      }
     }
   }, [output]);
 
