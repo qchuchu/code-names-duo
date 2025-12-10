@@ -1,6 +1,6 @@
-import { initGame } from "@/lib/initGame";
-import type { Game } from "@/lib/types";
-import { useWidgetState } from "@/utils";
+import { initGame } from "../lib/initGame";
+import type { Game } from "../lib/types";
+import { useWidgetState } from "../utils";
 import { useNavigate } from "react-router-dom";
 import { NEW_GAME_PROMPT } from "./Game";
 
