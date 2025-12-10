@@ -29,10 +29,10 @@ server.widget(
         .enum(["guessWord", "startGame"])
         .optional()
         .describe("The action to perform. If no game is ongoing, the action should be 'startGame'."),
-      wordsToGuess: z.array(z.string()).min(1).max(9).describe("The words to guess").optional(),
+      wordToGuess: z.string().describe("A word to guess").optional(),
     },
   },
-  async ({ action, wordsToGuess }): Promise<CallToolResult> => {
+  async ({ action, wordToGuess }): Promise<CallToolResult> => {
     if (action === "startGame") {
       return {
         _meta: {},
@@ -45,7 +45,7 @@ server.widget(
         ],
       };
     }
-    if (wordsToGuess === undefined) {
+    if (wordToGuess === undefined) {
       return {
         _meta: {},
         structuredContent: {},
@@ -55,11 +55,11 @@ server.widget(
     }
     return {
       _meta: {},
-      structuredContent: { action, wordsToGuess },
+      structuredContent: { action, wordToGuess },
       content: [
         {
           type: "text",
-          text: `The user has been shared the words to guess: ${wordsToGuess.join(", ")}. Let him tell you if the words are correct.`,
+          text: `The user has been shared the word to guess: ${wordToGuess}. Let him tell you if the word is correct.`,
         },
       ],
       isError: false,
