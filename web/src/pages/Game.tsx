@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import { initGame } from "../lib/initGame";
-import { useWidgetState } from "../utils";
-import type { Game, KeyCard } from "../lib/types";
-import { KeyCardComponent } from "../components/KeyCard";
-import { BoardComponent } from "../components/Board";
-import { decrypt } from "../lib/crypto";
+import { initGame } from "@/lib/initGame";
+import { useWidgetState } from "@/utils";
+import type { Game, KeyCard } from "@/lib/types";
+import { KeyCardComponent } from "@/components/KeyCard";
+import { BoardComponent } from "@/components/Board";
+import { decrypt } from "@/lib/crypto";
 import { useOpenAiGlobal, useToolInfo } from "skybridge/web";
 
 export const NEW_GAME_PROMPT = `
