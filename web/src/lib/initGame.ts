@@ -77,6 +77,5 @@ export const initGame = (): Game => {
     },
     commentForAI: COMMENT_FOR_AI,
     whoIsSpyMaster: "ai",
-    currentClue: null,
   };
 };

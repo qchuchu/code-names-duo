@@ -9,7 +9,7 @@ export const StartGame = () => {
   const [_, setGame] = useWidgetState<Game>();
 
   const handleStartGame = () => {
-    window.openai.requestDisplayMode({ mode: "pip" });
+    window.openai.requestDisplayMode({ mode: "fullscreen" });
     const game = initGame();
     setGame(game);
     window.openai.sendFollowUpMessage({

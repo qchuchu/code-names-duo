@@ -25,7 +25,7 @@ export const GamePage = () => {
 
   const handleResetGame = () => {
     setGame(initGame());
-    window.openai.requestDisplayMode({ mode: "pip" });
+    window.openai.requestDisplayMode({ mode: "fullscreen" });
     window.openai.sendFollowUpMessage({
       prompt: NEW_GAME_PROMPT,
     });
@@ -64,7 +64,7 @@ export const GamePage = () => {
           {displayMode === "inline" && (
             <button
               className="bg-codenames-cream hover:bg-codenames-cream/90 text-codenames-black font-bold px-3 py-2 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200 cursor-pointer"
-              onClick={() => window.openai.requestDisplayMode({ mode: "pip" })}
+              onClick={() => window.openai.requestDisplayMode({ mode: "fullscreen" })}
               title="Pin widget"
             >
               📌
@@ -80,15 +80,6 @@ export const GamePage = () => {
               <p className="text-codenames-cream/80 font-bold">Key Card</p>
               <KeyCardComponent keyCard={decrypt<KeyCard>(game.keyCards.user)} />
             </div>
-            {game.currentClue && (
-              <div className="bg-codenames-cream/10 border border-codenames-cream/30 rounded-xl px-4 py-2 flex items-center gap-3">
-                <span className="text-codenames-cream/70 text-xs">Clue:</span>
-                <span className="font-title text-xl text-codenames-yellow uppercase">{game.currentClue.word}</span>
-                <span className="bg-codenames-purple text-codenames-cream font-bold px-2 py-0.5 rounded-full text-sm">
-                  {game.currentClue.number}
-                </span>
-              </div>
-            )}
             {game.whoIsSpyMaster === "ai" && (
               <button
                 className="bg-codenames-purple hover:bg-codenames-purple-dark text-codenames-cream font-bold px-4 py-2 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200 font-title tracking-wide cursor-pointer"

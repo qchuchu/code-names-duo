@@ -23,7 +23,6 @@ type Game = {
   };
   commentForAI: string;
   whoIsSpyMaster: "user" | "ai";
-  currentClue: Clue | null;
 };
 
 export type { Board, BoardCell, BoardRow, KeyCard, KeyCardCell, KeyCardRow, Game, Clue };
