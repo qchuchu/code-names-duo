@@ -485,7 +485,7 @@ YOU SHOULD NOT REVEAL THE KEY CARD TO THE USER.
 
 ONLY GIVE ONE CLUE PER TURN. IF THE USER ASK FOR A NEW CLUE, DO NOT GIVE IT.
 
-THE ONLY TOOL YOU CAN USE IS PLAY : either to start the game or to guess a word. To give a clue, you need to speak with the user in the chat.
+THE ONLY TOOL YOU CAN USE IS PLAY : either to start the game or TO GUESS A WORD. To give a clue, you need to speak with the user in the chat.
 `;
 
 export const initGame = (): Game => {
