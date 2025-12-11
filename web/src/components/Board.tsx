@@ -13,23 +13,31 @@ export const BoardComponent = () => {
     const keyCardCell = game.keyCards.ai[cell.row][cell.column];
 
     let newStatus: BoardCell["status"];
+    let newGameStatus: Game["status"] | undefined;
+    let newWhoIsSpyMaster: Game["whoIsSpyMaster"] | undefined;
     if (keyCardCell === "word_to_guess") {
       newStatus = "revealed";
     } else if (keyCardCell === "assassin") {
       window.openai.sendFollowUpMessage({
-        prompt: `The user has guessed the word ${keyCardCell}. It was the assassin. Game over.`,
+        prompt: `The user has guessed the word ${keyCardCell}. It was the assassin. Game over. Explain him the words you wanted him to guess.`,
       });
-      setGame({ ...game, status: "gameOver" });
+
+      newGameStatus = "gameOver";
       newStatus = "assassin";
     } else {
       newStatus = "innocent_user";
       window.openai.sendFollowUpMessage({
         prompt: `The user has guessed the word ${keyCardCell}. It was an innocent word. It's your turn to guess a word.`,
       });
-      setGame({ ...game, whoIsSpyMaster: "user" });
     }
 
     game.board[cell.row][cell.column].status = newStatus;
+    if (newGameStatus) {
+      game.status = newGameStatus;
+    }
+    if (newWhoIsSpyMaster) {
+      game.whoIsSpyMaster = newWhoIsSpyMaster;
+    }
     setGame({ ...game });
   };
 
