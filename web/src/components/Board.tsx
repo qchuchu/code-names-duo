@@ -21,14 +21,11 @@ export const BoardComponent = () => {
       window.openai.sendFollowUpMessage({
         prompt: `The user has guessed the word ${keyCardCell}. It was the assassin. Game over. Explain him the words you wanted him to guess.`,
       });
-
       newGameStatus = "gameOver";
       newStatus = "assassin";
     } else {
       newStatus = "innocent_user";
-      window.openai.sendFollowUpMessage({
-        prompt: `The user has guessed the word ${keyCardCell}. It was an innocent word. It's your turn to guess a word.`,
-      });
+      newWhoIsSpyMaster = "user";
     }
 
     game.board[cell.row][cell.column].status = newStatus;
