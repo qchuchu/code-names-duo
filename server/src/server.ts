@@ -1,4 +1,3 @@
-import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { McpServer } from "skybridge/server";
 import { z } from "zod";
 
@@ -14,13 +13,12 @@ const server = new McpServer(
 Use the 'play' widget to display the game board. 
 The game is cooperative - help the user give and guess clues.`,
   },
-);
-
-server.widget(
+).registerWidget(
   "play",
-  {},
   {
     description: "Play a game of Code Name Duo. If there are no words to guess, the action should be 'startGame'.",
+  },
+  {
     annotations: {
       readOnlyHint: true,
     },
@@ -32,7 +30,7 @@ server.widget(
       wordToGuess: z.string().describe("A word to guess").optional(),
     },
   },
-  async ({ action, wordToGuess }): Promise<CallToolResult> => {
+  async ({ action, wordToGuess }) => {
     if (action === "startGame") {
       return {
         _meta: {},
@@ -68,3 +66,4 @@ server.widget(
 );
 
 export default server;
+export type AppType = typeof server;
